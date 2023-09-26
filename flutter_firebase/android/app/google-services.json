@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "392043812118",
+    "project_id": "flutterfire-tc2007-jpzb",
+    "storage_bucket": "flutterfire-tc2007-jpzb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392043812118:android:9b352d914cf146941e2c37",
+        "android_client_info": {
+          "package_name": "com.example.flutter_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxXGny8ApeXg8X4HcrBHPZNOA1EP4bZfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
