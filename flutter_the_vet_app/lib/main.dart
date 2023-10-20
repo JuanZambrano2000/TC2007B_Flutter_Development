@@ -92,17 +92,28 @@ class _LoginWidgetState extends State<LoginWidget> {
                       .createUserWithEmailAndPassword(
                           email: login.text, password: password.text);
                   print("USER CREATED: ${user.user?.uid}");
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('User created successfully')));
                 } on FirebaseAuthException catch (e) {
                   if (e.code == 'weak-password') {
-                    print("your password is weak and so are you.");
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            'The password provided is too weak, just like you.')));
                   } else if (e.code == 'email-already-in-use') {
-                    print("account exists.");
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            'The account already exists for that email.')));
+                  } else if (e.code == 'invalid-email') {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                            Text('The email address is badly formatted.')));
                   }
                 } catch (e) {
-                  print(e);
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(e.toString())));
                 }
               },
-              child: const Text("Sign up")),
+              child: const Text("Create account")),
           TextButton(
               onPressed: () async {
                 try {
@@ -117,7 +128,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                             builder: (context) => MenuActivity()));
                   }
                 } catch (e) {
-                  print(e);
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(e.toString())));
                 }
               },
               child: const Text("Sign in")),
@@ -138,15 +150,14 @@ class _MenuActivityState extends State<MenuActivity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Menu Activity')),
+      appBar: AppBar(title: Text('Menu Activity')),
       body: StreamBuilder<QuerySnapshot>(
         stream: db.collection('animals').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty)
             return Center(
                 child: Text(
                     "There are no animals registered, register the first one"));
-          }
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) =>
@@ -165,7 +176,7 @@ class _MenuActivityState extends State<MenuActivity> {
     return ListTile(
       title: Text(document['name']),
       trailing: IconButton(
-          icon: const Icon(Icons.info),
+          icon: Icon(Icons.info),
           onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -228,16 +239,25 @@ class _DetailActivityState extends State<DetailActivity> {
   }
 
   void registerAnimal() {
-    final animal = {
-      'name': nameController.text,
-      'age': double.tryParse(ageController.text),
-      'weight': double.tryParse(weightController.text)
-    };
+    double? age = double.tryParse(ageController.text);
+    double? weight = double.tryParse(weightController.text);
+
+    if (age == null || weight == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Age and weight must be numerical')));
+      return;
+    }
+
+    final animal = {'name': nameController.text, 'age': age, 'weight': weight};
 
     if (widget.animalDocument == null) {
       db.collection('animals').add(animal);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('New animal registered successfully')));
     } else {
       db.collection('animals').doc(widget.animalDocument!.id).update(animal);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Animal details updated successfully')));
     }
 
     Navigator.pop(context);
