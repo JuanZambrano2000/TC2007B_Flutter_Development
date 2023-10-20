@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "704127189282",
+    "project_id": "the-vet-app-flutter-572af",
+    "storage_bucket": "the-vet-app-flutter-572af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704127189282:android:e25e5803c583a0181f657b",
+        "android_client_info": {
+          "package_name": "com.example.flutter_the_vet_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfwq_nEVW6dwNaFYCpZzCgfwS4CuWNuFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
