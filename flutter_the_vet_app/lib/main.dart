@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+/*
+to add multidex support:
+flutter run --debug
+y
+ */
 void main() {
   runApp(const MainApp());
 }
